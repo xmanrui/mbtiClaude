@@ -1,7 +1,7 @@
 ---
 name: mbticlaude
 description: Infer MBTI personality types by analyzing user prompts across multiple AI tools (Claude Code, Codex, Gemini, OpenCode, OpenClaw) | 通过分析用户在多个 AI 工具的提示词来推测 MBTI 性格类型
-version: 1.0.3
+version: 1.1.0
 author: xmr
 tags: [mbti, personality, analysis, prompts]
 triggers:
@@ -185,46 +185,123 @@ def extract_openclaw_prompts(limit=100):
     return prompts[-limit:] if prompts else []
 
 def analyze_communication_style(prompts):
-    """分析沟通风格 (E vs I)"""
-    avg_length = sum(len(p) for p in prompts) / len(prompts) if prompts else 0
-    short_prompts = sum(1 for p in prompts if len(p) < 20)
+    """分析沟通风格 (E vs I) - 优化版"""
+    if not prompts:
+        return "I"
     
-    # 简短指令占比高 -> I
-    short_ratio = short_prompts / len(prompts) if prompts else 0
+    avg_length = sum(len(p) for p in prompts) / len(prompts)
+    short_prompts = sum(1 for p in prompts if len(p) < 15)  # 降低阈值从20到15
+    short_ratio = short_prompts / len(prompts)
     
-    return "I" if short_ratio > 0.3 or avg_length < 50 else "E"
+    # 计算详细度得分
+    detailed_prompts = sum(1 for p in prompts if len(p) > 100)
+    detailed_ratio = detailed_prompts / len(prompts)
+    
+    # 检查是否有问号（提问倾向）
+    question_count = sum(1 for p in prompts if '?' in p or '？' in p or 'how' in p.lower() or 'why' in p.lower() or '如何' in p or '为什么' in p)
+    question_ratio = question_count / len(prompts)
+    
+    # 综合判断：提高 E 型出现概率
+    e_score = 0
+    if avg_length > 40:  # 降低阈值从50到40
+        e_score += 1
+    if short_ratio < 0.4:  # 提高阈值从0.3到0.4
+        e_score += 1
+    if detailed_ratio > 0.15:  # 有15%以上的详细提示词
+        e_score += 1
+    if question_ratio > 0.2:  # 有20%以上的提问
+        e_score += 1
+    
+    return "E" if e_score >= 2 else "I"
 
 def analyze_information_processing(prompts):
-    """分析信息处理 (S vs N)"""
-    abstract_keywords = ['概念', '系统', '架构', '方案', '思路', '含屎量', '边际', '抽象']
-    concrete_keywords = ['具体', '实现', '细节', 'emoji', '间距', '颜色', '按钮']
+    """分析信息处理 (S vs N) - 优化版，支持英文"""
+    if not prompts:
+        return "S"
     
-    abstract_count = sum(1 for p in prompts for kw in abstract_keywords if kw in p)
-    concrete_count = sum(1 for p in prompts for kw in concrete_keywords if kw in p)
+    # 扩展关键词，增加英文支持和权重
+    abstract_keywords = {
+        # 中文（权重2）
+        '概念': 2, '系统': 2, '架构': 3, '方案': 2, '思路': 2, '抽象': 3,
+        '模式': 2, '框架': 2, '理念': 2, '愿景': 2, '战略': 2,
+        # 英文（权重2）
+        'concept': 2, 'system': 2, 'architecture': 3, 'solution': 2, 'approach': 2,
+        'pattern': 2, 'framework': 2, 'strategy': 2, 'vision': 2, 'abstract': 3
+    }
     
-    # 抽象概念多 -> N
-    return "N" if abstract_count > concrete_count else "S"
+    concrete_keywords = {
+        # 中文（权重1）
+        '具体': 1, '实现': 1, '细节': 1, '步骤': 1, '操作': 1,
+        '按钮': 1, '颜色': 1, '间距': 1, '像素': 1, '字体': 1,
+        # 英文（权重1）
+        'specific': 1, 'implement': 1, 'detail': 1, 'step': 1, 'operation': 1,
+        'button': 1, 'color': 1, 'spacing': 1, 'pixel': 1, 'font': 1
+    }
+    
+    abstract_score = sum(weight for p in prompts for kw, weight in abstract_keywords.items() if kw in p.lower())
+    concrete_score = sum(weight for p in prompts for kw, weight in concrete_keywords.items() if kw in p.lower())
+    
+    # 降低 N 型判定门槛
+    return "N" if abstract_score > concrete_score * 0.8 else "S"
 
 def analyze_decision_making(prompts):
-    """分析决策方式 (T vs F)"""
-    logical_keywords = ['优化', '效率', '性能', '统计', '分析', '测试', '修复', '实现']
-    emotional_keywords = ['感觉', '喜欢', '希望', '想要', '谢谢', '辛苦']
+    """分析决策方式 (T vs F) - 优化版，支持英文"""
+    if not prompts:
+        return "T"
     
-    logical_count = sum(1 for p in prompts for kw in logical_keywords if kw in p)
-    emotional_count = sum(1 for p in prompts for kw in emotional_keywords if kw in p)
+    # 扩展关键词，增加英文支持
+    logical_keywords = [
+        # 中文
+        '优化', '效率', '性能', '统计', '分析', '测试', '修复', '实现',
+        '算法', '数据', '指标', '评估', '验证', '检查', '对比',
+        # 英文
+        'optimize', 'efficiency', 'performance', 'statistics', 'analyze', 'test', 'fix', 'implement',
+        'algorithm', 'data', 'metric', 'evaluate', 'verify', 'check', 'compare'
+    ]
     
-    # 逻辑性强 -> T
-    return "T" if logical_count > emotional_count * 2 else "F"
+    emotional_keywords = [
+        # 中文
+        '感觉', '喜欢', '希望', '想要', '谢谢', '辛苦', '帮忙', '麻烦',
+        '期待', '担心', '开心', '满意', '友好', '舒服', '美观',
+        # 英文
+        'feel', 'like', 'hope', 'want', 'thanks', 'thank', 'please', 'appreciate',
+        'expect', 'worry', 'happy', 'satisfied', 'friendly', 'comfortable', 'beautiful'
+    ]
+    
+    logical_count = sum(1 for p in prompts for kw in logical_keywords if kw in p.lower())
+    emotional_count = sum(1 for p in prompts for kw in emotional_keywords if kw in p.lower())
+    
+    # 降低 T 型判定门槛，让 F 型更容易出现
+    return "T" if logical_count > emotional_count * 1.5 else "F"
 
 def analyze_lifestyle(prompts):
-    """分析生活方式 (J vs P)"""
-    planning_keywords = ['计划', '方案', '设计', 'PRD', '文档', '规划']
-    flexible_keywords = ['试试', '测试', '优化', '调整', '改', '换']
+    """分析生活方式 (J vs P) - 优化版，支持英文"""
+    if not prompts:
+        return "P"
     
-    planning_count = sum(1 for p in prompts for kw in planning_keywords if kw in p)
-    flexible_count = sum(1 for p in prompts for kw in flexible_keywords if kw in p)
+    # 扩展关键词，增加英文支持
+    planning_keywords = [
+        # 中文
+        '计划', '方案', '设计', 'PRD', '文档', '规划', '安排', '流程',
+        '步骤', '阶段', '里程碑', '时间表', 'roadmap',
+        # 英文
+        'plan', 'design', 'schedule', 'organize', 'structure', 'process',
+        'procedure', 'milestone', 'timeline', 'roadmap', 'workflow'
+    ]
     
-    # 灵活性强 -> P
+    flexible_keywords = [
+        # 中文
+        '试试', '测试', '优化', '调整', '改', '换', '尝试', '探索',
+        '实验', '迭代', '看看', '试一下', '改进',
+        # 英文
+        'try', 'test', 'experiment', 'adjust', 'change', 'modify', 'explore',
+        'iterate', 'adapt', 'improve', 'refine', 'tweak'
+    ]
+    
+    planning_count = sum(1 for p in prompts for kw in planning_keywords if kw in p.lower())
+    flexible_count = sum(1 for p in prompts for kw in flexible_keywords if kw in p.lower())
+    
+    # 保持原有逻辑
     return "P" if flexible_count > planning_count else "J"
 
 def analyze_mbti():
