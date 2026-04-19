@@ -1,5 +1,222 @@
 # MBTIClaude
 
+[中文](#中文版) | [English](#english-version)
+
+## English Version
+
+Infer MBTI personality types by analyzing user prompts across multiple AI tools (Claude Code, Codex, Gemini, OpenCode, OpenClaw).
+
+### Introduction
+
+MBTIClaude is an innovative MBTI personality analysis tool that doesn't rely on traditional questionnaires. Instead, it infers your MBTI personality type by analyzing your prompt patterns when using AI tools in daily work.
+
+### Features
+
+- 🔍 **Multi-tool Support**: Analyzes history data from Claude Code, Codex, Gemini, OpenCode, and OpenClaw
+- 🧠 **Intelligent Analysis**: Deep behavioral pattern analysis based on four MBTI dimensions
+- 📊 **Detailed Reports**: Provides complete data statistics and dimension analysis results
+- 🚀 **Ready to Use**: No configuration needed, automatically extracts local history data
+
+### Supported AI Tools
+
+| Tool | Data Path | Description |
+|------|-----------|-------------|
+| Claude Code | `~/.claude/history.jsonl` | Official Claude CLI tool |
+| Codex | `~/.codex/history.jsonl` | OpenAI Codex CLI |
+| Gemini | `~/.gemini/tmp/*/chats/*.json` | Google Gemini CLI |
+| OpenCode | `~/.local/state/opencode/prompt-history.jsonl` | OpenCode tool |
+| OpenClaw | `~/.openclaw/agents/*/sessions/*.jsonl` | OpenClaw multi-agent system |
+
+### Installation
+
+#### Method 1: Using npx skills add (Recommended)
+
+```bash
+# Install from GitHub
+npx skills add xmanrui/mbtiClaude
+
+# Or use full URL
+npx skills add https://github.com/xmanrui/mbtiClaude
+```
+
+#### Method 2: Using npx directly
+
+```bash
+# One-click install
+npx github:xmanrui/mbtiClaude
+
+# View help
+npx github:xmanrui/mbtiClaude --help
+```
+
+#### Method 3: Manual installation
+
+```bash
+# Using curl
+curl -fsSL https://raw.githubusercontent.com/xmanrui/mbtiClaude/main/SKILL.md -o ~/.claude/skills/mbticlaude.md
+
+# Or using git clone
+git clone https://github.com/xmanrui/mbtiClaude.git /tmp/mbtiClaude
+cp /tmp/mbtiClaude/SKILL.md ~/.claude/skills/mbticlaude.md
+rm -rf /tmp/mbtiClaude
+```
+
+### Usage
+
+#### In Claude Code
+
+```bash
+/mbticlaude
+```
+
+#### Direct execution
+
+```bash
+python3 mbti_analyzer.py
+```
+
+### Analysis Dimensions
+
+MBTIClaude analyzes your MBTI type based on the following four dimensions:
+
+#### 1. Communication Style (E vs I)
+- **E (Extrovert)**: Detailed prompts, includes background information, tends to elaborate
+- **I (Introvert)**: Concise prompts, task-oriented, direct instructions
+
+**Analysis Metrics:**
+- Average prompt length
+- Ratio of short instructions (<20 characters)
+- Frequency of social expressions
+
+#### 2. Information Processing (S vs N)
+- **S (Sensing)**: Focuses on concrete details, implementation steps, visible results
+- **N (Intuition)**: Focuses on abstract concepts, system architecture, innovative ideas
+
+**Analysis Metrics:**
+- Frequency of abstract concept keywords (concept, system, architecture, solution)
+- Frequency of concrete detail keywords (specific, implementation, details, button)
+
+#### 3. Decision Making (T vs F)
+- **T (Thinking)**: Logic-oriented, focuses on efficiency, technical language
+- **F (Feeling)**: Emotion-oriented, considers interpersonal relationships, emotional expression
+
+**Analysis Metrics:**
+- Frequency of logical keywords (optimize, efficiency, performance, analysis)
+- Frequency of emotional keywords (feel, like, hope, thank)
+
+#### 4. Lifestyle (J vs P)
+- **J (Judging)**: Strong planning, structured, systematic planning
+- **P (Perceiving)**: Flexible, exploratory, rapid iteration
+
+**Analysis Metrics:**
+- Frequency of planning keywords (plan, solution, design, PRD)
+- Frequency of flexibility keywords (try, test, optimize, adjust)
+
+### Example Output
+
+```
+🔍 Extracting user prompts...
+
+📊 Data Statistics:
+  Claude Code: 100 entries
+  Codex: 100 entries
+  Gemini: 62 entries
+  OpenCode: 2 entries
+  OpenClaw: 100 entries
+  Total: 364 entries
+
+🧠 Analyzing MBTI dimensions...
+
+==================================================
+🎯 Your MBTI Type: INTP
+==================================================
+
+Type Name: Logician
+
+📋 Dimension Analysis:
+  I - Introvert: Concise and efficient communication
+  N - Intuition: Abstract thinking, systematic solutions
+  T - Thinking: Pure rationality, focus on efficiency
+  P - Perceiving: Flexible exploration, rapid iteration
+
+⚠️  Important Reminders:
+  1. Based on work scenario behavior inference, may not reflect true personality
+  2. MBTI itself has scientific controversies, for reference only
+  3. This is behavioral pattern inference, not professional psychological assessment
+```
+
+### MBTI Type Descriptions
+
+| Type | Name | Characteristics |
+|------|------|-----------------|
+| INTJ | Architect | Strategic thinking, independent, perfectionist |
+| INTP | Logician | Innovative thinking, rational analysis, flexible exploration |
+| ENTJ | Commander | Strong leadership, decisive, goal-oriented |
+| ENTP | Debater | Good at debating, innovative, challenges tradition |
+| INFJ | Advocate | Idealistic, insightful, caring for others |
+| INFP | Mediator | Value-driven, creative, empathetic |
+| ENFJ | Protagonist | Charismatic leader, good at motivating, focuses on growth |
+| ENFP | Campaigner | Enthusiastic, creative, strong social skills |
+| ISTJ | Logistician | Reliable, practical, detail-oriented |
+| ISFJ | Defender | Loyal, careful, helpful |
+| ESTJ | Executive | Strong organizational skills, practical, traditional |
+| ESFJ | Consul | Warm-hearted, cooperative, focuses on harmony |
+| ISTP | Virtuoso | Strong practical skills, flexible, calm |
+| ISFP | Adventurer | Artistic temperament, flexible, gentle |
+| ESTP | Entrepreneur | Action-oriented, adaptable, good at improvising |
+| ESFP | Entertainer | Energetic, enjoys the moment, social butterfly |
+
+### How It Works
+
+1. **Data Extraction**: Extracts user prompts from local AI tool history records
+2. **Data Cleaning**: Filters system messages, metadata, and other non-user input content
+3. **Feature Analysis**: Analyzes behavioral patterns based on keyword frequency, prompt length, and other metrics
+4. **Type Inference**: Infers MBTI type based on analysis results from four dimensions
+5. **Result Display**: Generates detailed analysis report
+
+### Important Notes
+
+⚠️ **Important Reminders:**
+
+1. **Scenario Limitations**: Analysis is based on AI tool usage behavior in work scenarios, may not fully reflect true personality
+2. **Scientific Controversy**: MBTI itself is controversial in psychology, results are for reference only
+3. **Non-professional Assessment**: This is behavioral pattern inference, cannot replace professional psychological assessment
+4. **Data Requirements**: Requires sufficient historical data (at least 50 prompts recommended) for accurate conclusions
+5. **Privacy Protection**: All analysis is performed locally, no data is uploaded
+
+### Tech Stack
+
+- Python 3.x
+- JSON data processing
+- Natural language analysis
+- Behavioral pattern recognition
+
+### Contributing
+
+Issues and Pull Requests are welcome!
+
+#### Improvement Directions
+
+- [ ] Support more AI tools
+- [ ] Optimize analysis algorithms
+- [ ] Add more analysis dimensions
+- [ ] Provide visualization reports
+- [ ] Support multilingual analysis
+
+### License
+
+MIT License
+
+### Acknowledgments
+
+Thanks to all AI tool developers for providing powerful tools that made this project possible.
+
+---
+
+## 中文版
+
+# MBTIClaude
+
 通过分析用户在多个 AI 工具（Claude Code、Codex、Gemini、OpenCode、OpenClaw） 的提示词来推测 MBTI 性格类型。
 
 ## 简介
