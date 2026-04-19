@@ -1,7 +1,7 @@
 ---
 name: mbticlaude
-description: 通过分析用户在多个 AI 工具（Claude Code、Codex、Gemini、OpenCode、OpenClaw ）的提示词来推测 MBTI 性格类型
-version: 1.0.2
+description: Infer MBTI personality types by analyzing user prompts across multiple AI tools (Claude Code, Codex, Gemini, OpenCode, OpenClaw) | 通过分析用户在多个 AI 工具的提示词来推测 MBTI 性格类型
+version: 1.0.3
 author: xmr
 tags: [mbti, personality, analysis, prompts]
 triggers:
@@ -10,48 +10,55 @@ triggers:
   - "mbti性格测试"
   - "我的性格类型"
   - "分析性格"
+  - "analyze my mbti"
+  - "test mbti"
+  - "mbti personality test"
+  - "my personality type"
+  - "analyze personality"
 ---
 
 # MBTIClaude
 
+Infer MBTI personality types by analyzing user prompts across multiple AI tools (Claude Code, Codex, Gemini, OpenCode, OpenClaw).
+
 通过分析用户在多个 AI 工具（Claude Code、Codex、Gemini、OpenCode、OpenClaw）中的提示词来推测 MBTI 性格类型。
 
-## 功能
+## Features | 功能
 
-- 自动提取五种 AI 工具的用户提示词历史
-- 分析沟通风格、信息处理方式、决策模式和生活方式
-- 基于行为模式推测 MBTI 类型
-- 提供详细的特征分析和建议
+- Automatically extract user prompt history from five AI tools | 自动提取五种 AI 工具的用户提示词历史
+- Analyze communication style, information processing, decision-making patterns, and lifestyle | 分析沟通风格、信息处理方式、决策模式和生活方式
+- Infer MBTI type based on behavioral patterns | 基于行为模式推测 MBTI 类型
+- Provide detailed feature analysis and recommendations | 提供详细的特征分析和建议
 
-## 使用方法
+## Usage | 使用方法
 
 ```bash
 /mbticlaude
 ```
 
-## 分析维度
+## Analysis Dimensions | 分析维度
 
-### 1. 沟通风格 (E vs I)
-- 提示词长度和详细程度
-- 社交性表达 vs 任务导向
-- 背景说明的丰富程度
+### 1. Communication Style (E vs I) | 沟通风格
+- Prompt length and detail level | 提示词长度和详细程度
+- Social expression vs task-oriented | 社交性表达 vs 任务导向
+- Richness of background information | 背景说明的丰富程度
 
-### 2. 信息处理 (S vs N)
-- 关注具体细节 vs 抽象概念
-- 实现导向 vs 概念导向
-- 创造性思维的体现
+### 2. Information Processing (S vs N) | 信息处理
+- Focus on concrete details vs abstract concepts | 关注具体细节 vs 抽象概念
+- Implementation-oriented vs concept-oriented | 实现导向 vs 概念导向
+- Expression of creative thinking | 创造性思维的体现
 
-### 3. 决策方式 (T vs F)
-- 逻辑性 vs 情感性
-- 任务导向 vs 人际关系考虑
-- 技术语言 vs 情感表达
+### 3. Decision Making (T vs F) | 决策方式
+- Logical vs emotional | 逻辑性 vs 情感性
+- Task-oriented vs interpersonal considerations | 任务导向 vs 人际关系考虑
+- Technical language vs emotional expression | 技术语言 vs 情感表达
 
-### 4. 生活方式 (J vs P)
-- 计划性 vs 灵活性
-- 结构化 vs 探索性
-- 快速迭代 vs 系统规划
+### 4. Lifestyle (J vs P) | 生活方式
+- Planning vs flexibility | 计划性 vs 灵活性
+- Structured vs exploratory | 结构化 vs 探索性
+- Rapid iteration vs systematic planning | 快速迭代 vs 系统规划
 
-## 数据来源
+## Data Sources | 数据来源
 
 - **Claude Code**: `~/.claude/history.jsonl`
 - **Codex**: `~/.codex/history.jsonl`
@@ -59,15 +66,15 @@ triggers:
 - **OpenCode**: `~/.local/state/opencode/prompt-history.jsonl`
 - **OpenClaw**: `~/.openclaw/agents/*/sessions/*.jsonl`
 
-## 注意事项
+## Important Notes | 注意事项
 
-⚠️ **重要提醒：**
-1. 样本基于工作场景，可能不反映真实性格
-2. MBTI 本身科学性存疑，仅供参考
-3. 这是基于行为模式的推测，非专业心理测评
-4. 需要足够的历史数据才能得出较准确的结论
+⚠️ **Important Reminders | 重要提醒：**
+1. Sample based on work scenarios, may not reflect true personality | 样本基于工作场景，可能不反映真实性格
+2. MBTI itself has scientific controversies, for reference only | MBTI 本身科学性存疑，仅供参考
+3. This is behavioral pattern inference, not professional psychological assessment | 这是基于行为模式的推测，非专业心理测评
+4. Requires sufficient historical data for accurate conclusions | 需要足够的历史数据才能得出较准确的结论
 
-## 实现
+## Implementation | 实现
 
 ```python
 #!/usr/bin/env python3
