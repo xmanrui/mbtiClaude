@@ -1,6 +1,6 @@
 ---
 name: mbticlaude
-description: 通过分析用户在多个 AI 工具中的提示词来推测 MBTI 性格类型
+description: 通过分析用户在多个 AI 工具（Claude Code、Codex、Gemini、OpenCode、OpenClaw ）的提示词来推测 MBTI 性格类型
 version: 1.0.0
 author: xmr
 tags: [mbti, personality, analysis, prompts]
