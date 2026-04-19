@@ -1,0 +1,39 @@
+{
+  "name": "mbticlaude",
+  "version": "1.0.0",
+  "description": "通过分析用户在多个 AI 工具中的提示词来推测 MBTI 性格类型",
+  "main": "install.js",
+  "bin": {
+    "mbticlaude": "./bin/mbticlaude.js"
+  },
+  "scripts": {
+    "postinstall": "node install.js"
+  },
+  "keywords": [
+    "mbti",
+    "personality",
+    "analysis",
+    "ai",
+    "claude",
+    "skill"
+  ],
+  "author": "xmr",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xmanrui/mbtiClaude.git"
+  },
+  "bugs": {
+    "url": "https://github.com/xmanrui/mbtiClaude/issues"
+  },
+  "homepage": "https://github.com/xmanrui/mbtiClaude#readme",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "files": [
+    "mbticlaude.md",
+    "install.js",
+    "bin/",
+    "README.md"
+  ]
+}
