@@ -25,39 +25,36 @@ MBTIClaude 是一个创新的 MBTI 性格分析工具，它不依赖传统的问
 
 ## 安装
 
-### 方法一：使用 npx（推荐）
+### 方法一：使用 npx skills add（推荐）
 
 ```bash
-# 一键安装（从 GitHub）
+# 从 GitHub 安装
+npx skills add xmanrui/mbtiClaude
+
+# 或使用完整 URL
+npx skills add https://github.com/xmanrui/mbtiClaude
+```
+
+### 方法二：使用 npx 直接安装
+
+```bash
+# 一键安装
 npx github:xmanrui/mbtiClaude
 
 # 查看帮助
 npx github:xmanrui/mbtiClaude --help
-
-# 查看版本
-npx github:xmanrui/mbtiClaude --version
-```
-
-### 方法二：从 GitHub 安装
-
-```bash
-# 使用 curl
-curl -fsSL https://raw.githubusercontent.com/xmanrui/mbtiClaude/main/mbticlaude.md -o ~/.claude/skills/mbticlaude.md
-
-# 或使用 git clone
-git clone https://github.com/xmanrui/mbtiClaude.git /tmp/mbtiClaude
-cp /tmp/mbtiClaude/mbticlaude.md ~/.claude/skills/
-rm -rf /tmp/mbtiClaude
 ```
 
 ### 方法三：手动安装
 
 ```bash
-# 复制 skill 文件到 Claude Code skills 目录
-cp mbticlaude.md ~/.claude/skills/
+# 使用 curl
+curl -fsSL https://raw.githubusercontent.com/xmanrui/mbtiClaude/main/SKILL.md -o ~/.claude/skills/mbticlaude.md
 
-# 或者创建符号链接
-ln -s $(pwd)/mbticlaude.md ~/.claude/skills/mbticlaude.md
+# 或使用 git clone
+git clone https://github.com/xmanrui/mbtiClaude.git /tmp/mbtiClaude
+cp /tmp/mbtiClaude/SKILL.md ~/.claude/skills/mbticlaude.md
+rm -rf /tmp/mbtiClaude
 ```
 
 ## 使用方法

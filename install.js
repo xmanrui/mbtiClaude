@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const os = require('os');
 
-const SKILL_FILE = 'mbticlaude.md';
+const SKILL_FILE = 'SKILL.md';
 const CLAUDE_SKILLS_DIR = path.join(os.homedir(), '.claude', 'skills');
 
 function installSkill() {
