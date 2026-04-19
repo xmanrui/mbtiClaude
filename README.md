@@ -28,14 +28,14 @@ MBTIClaude 是一个创新的 MBTI 性格分析工具，它不依赖传统的问
 ### 方法一：使用 npx（推荐）
 
 ```bash
-# 一键安装
-npx mbticlaude
+# 一键安装（从 GitHub）
+npx github:xmanrui/mbtiClaude
 
 # 查看帮助
-npx mbticlaude --help
+npx github:xmanrui/mbtiClaude --help
 
 # 查看版本
-npx mbticlaude --version
+npx github:xmanrui/mbtiClaude --version
 ```
 
 ### 方法二：从 GitHub 安装
